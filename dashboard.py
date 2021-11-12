@@ -20,8 +20,8 @@ class MainWin(Tk):
         self.configure(bg='gray')
         self.canvas = Canvas(width=1366, height=768, bg='gray')
         self.canvas.pack()
-        self.maxsize(1320, 768)
-        self.minsize(1320, 768)
+        self.maxsize(1366, 768)
+        self.minsize(1366, 768)
         self.state('zoomed')
         self.title('CRUD Operations in python')
         self.a = StringVar()
@@ -66,18 +66,19 @@ class MainWin(Tk):
 
         def ser():
             try:
-                conn = mysql.connector.connect(host='localhost',database='crud',user='root',password='')
+                conn = mysql.connector.connect(host='localhost',database='crud',user='root',password='admin')
                 cursor = conn.cursor()
-                cursor.execute("Select * form tbl_student")
+                cursor.execute("Select * from tbl_student")
                 pc = cursor.fetchall()
+                print(pc)
                 if pc:
                     self.listTree.delete(*self.listTree.get_children())
                     for row in pc:
-                        self.listTree.insert("",'end',text='row&#91;0]' ,values = '(row&#91;1],row&#91;2],row&#91;3],row&#91;4],row&#91;5],row&#91;6])')
+                        self.listTree.insert("",'end',text=row[0],values = (row[1],row[2],row[3],row[4],row[5],row[6]))
                 else:
                     messagebox.showinfo("Error","No Student!")
             except Error:
-                #print(Error)
+                print(Error)
                 messagebox.showerror("Error","Something went wrong")
 
         def check():

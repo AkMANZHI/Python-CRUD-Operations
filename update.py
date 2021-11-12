@@ -5,7 +5,7 @@ import mysql.connector
 from mysql.connector import Error
 import tkinter.messagebox
 
-conn =mysql.connector.connect(host="localhost",database='crud',user="root",password='')
+conn =mysql.connector.connect(host="localhost",database='crud',user="root",password='admin')
 
 mycursor = conn.cursor()
 
@@ -16,7 +16,7 @@ class Database:
         self.heading.place(x=100,y=0)
 
         #label and entry of id
-        self.id_le = Label(master,text='Enter ID',font=('Courier new ',10))
+        self.id_le = Label(master,text='Enter ID',font=('Courier new ',10,'bold'))
         self.id_le.place(x=0,y=70)
 
         self.id_leb = Entry(master,font=('Courier new',10),width=10)
@@ -71,16 +71,18 @@ class Database:
         self.btn_add.place(x=380,y=420)
 
     def search(self,*args,**kwargs):
-        mycursor.execute('SELECT * FROM tbl_student WHERE Stud_Id%s','&#91;self.id_leb.get()]')
+        value = self.id_leb.get()
+        query = 'SELECT * FROM tbl_student WHERE Stud_Id=%s'
+        mycursor.execute(query,(value,))
         result = mycursor.fetchall()
         for r in result:
-            print('')
-            # self.n1 = r&#91;1] 
-            # self.n2 = r&#91;2] 
-            # self.n3 = r&#91;3] 
-            # self.n4 = r&#91;4] 
-            # self.n5 = r&#91;5] 
-            # self.n6 = r&#91;6]
+            print(r)
+            self.n1 = r[1] 
+            self.n2 = r[2] 
+            self.n3 = r[3] 
+            self.n4 = r[4] 
+            self.n5 = r[5] 
+            self.n6 = r[6]
         conn.commit()
 
         #inster into the enteries to update
@@ -111,13 +113,13 @@ class Database:
         self.u5 = self.contact.get()
         self.u6 = self.course.get()
 
-        mycursor.execute('UPDATE tbl_student SET FirstName=%s,LastName=%s,Gender=%s,Address=%s,ContactNumber=%s,Course=%s WHERE Stud_ID=%s",&#91;self.u1,self.u2,self.u3,self.u4,self.u5,self.u6,self.id_leb.get()])')
+        mycursor.execute("UPDATE tbl_student SET FirstName=%s,LastName=%s,Gender=%s,Address=%s,ContactNumber=%s,Course=%s WHERE Stud_ID=%s",(self.u1,self.u2,self.u3,self.u4,self.u5,self.u6,self.id_leb.get()))
         conn.commit()
         tkinter.messagebox.showinfo("Success","Update Student Successfully")
 
 
 root = Tk()
 b = Database(root)
-root.geometry("1000x760,0+0")
+root.geometry("1000x760+0+0")
 root.title("Update Student Information")
 root.mainloop()

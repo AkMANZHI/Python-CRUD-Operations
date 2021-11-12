@@ -4,7 +4,6 @@ from tkinter import filedialog
 
 import os
 import sys
-from tkinter import font
 import mysql.connector
 from mysql.connector import Error
 
@@ -29,7 +28,7 @@ class Add(Tk):
 
         def asi():
             try:
-                self.conn =  mysql.connector.connect(host='localhost',  database='crud',  user='root', password='')
+                self.conn =  mysql.connector.connect(host='localhost',  database='crud',  user='root', password='admin')
                 self.myCursor = self.conn.cursor()
                 first = fname.get()
                 last = lname.get()
@@ -38,7 +37,7 @@ class Add(Tk):
                 address = add.get()
                 course = c.get()
 
-                self.myCursor.execute("Insert into tbl_student(FirstName,LastName,Gender,Address,ContactNumber,Course) values (%s,%s,%s,%s,%s,%s)",'&#91;first,last,gend,address,contact,course]')
+                self.myCursor.execute("Insert into tbl_student(FirstName,LastName,Gender,Address,ContactNumber,Course) values (%s,%s,%s,%s,%s,%s)",(first,last,gend,address,contact,course))
                 self.conn.commit()
                 messagebox.showinfo("Done","Student Inserted Successfully")
                 ask = messagebox.askyesno("Confirm","Do you want to add another student ?")
@@ -51,6 +50,7 @@ class Add(Tk):
                     self.myCursor.close()
                     self.conn.close()
             except Error:
+                print(Error)
                 messagebox.showerror("Error","Something goes wrong")
 
 # label and input box
